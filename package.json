@@ -39,9 +39,6 @@
             },
             {
                 "staticPath": "src/manifest.webapp"
-            },
-            {
-                "staticPath": "src/ads/kaiads.v4.min.js"
             }
         ]
     },

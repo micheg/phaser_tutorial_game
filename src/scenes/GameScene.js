@@ -1,3 +1,4 @@
+import { WIDTH, HEIGHT, CENTER_X, CENTER_Y } from '../cfg/cfg';
 import Phaser from 'phaser'
 
 export default class GameScene extends Phaser.Scene
@@ -18,11 +19,13 @@ export default class GameScene extends Phaser.Scene
         {
             frameWidth: 32, frameHeight: 48
         });
+
+        this.load.bitmapFont('pixelFont', 'font/font.png', 'font/font.xml');
     }
 
     create()
     {
-        this.add.image(400, 300, 'sky');
-        this.add.image(400, 300, 'star');
+        this.add.image(CENTER_X, CENTER_Y, 'sky');
+        this.add.image(CENTER_X, CENTER_Y, 'star');
     }
 }

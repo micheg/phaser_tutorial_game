@@ -1,11 +1,14 @@
 import Phaser from 'phaser';
 
+export const WIDTH = 240;
+export const HEIGHT = 320;
+
 // All configuration
 export default
 {
     type: Phaser.AUTO,
-    width: 240,
-    height: 320,
+    width: WIDTH,
+    height: HEIGHT,
     physics:
     {
         default: 'arcade',
@@ -15,3 +18,7 @@ export default
         }
     }
 };
+
+
+export const CENTER_X = WIDTH / 2;
+export const CENTER_Y = HEIGHT / 2;
