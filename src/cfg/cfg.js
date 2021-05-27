@@ -16,7 +16,8 @@ export default
         {
             gravity: { y: 100 }
         }
-    }
+    },
+    pixelArt: true
 };
 
 
