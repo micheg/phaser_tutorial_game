@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "A simple game with phaserjs for kaios",
     "scripts": {
-        "dev": "parcel src/index.dev.html -p 8080",
+        "dev": "parcel src/index.html -p 8080",
         "build": "parcel build src/index.html --out-dir dist --no-source-maps",
         "make_app": "touch hellow.zip && rm hellow.zip && cd dist && zip -r ../hellow.zip * && cd .."
     },
@@ -26,7 +26,7 @@
         "parcel-plugin-static-files-copy": "^2.4.3"
     },
     "dependencies": {
-        "phaser": "^3.54.0"
+        "phaser": "^3.55.1"
     },
     "parcelCleanPaths": [
         "dist"

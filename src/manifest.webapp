@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "name": "Phaser3.Hello.World",
+    "name": "Phaser3.Simple.Game",
     "description": "Phaser 3 Sample Game.",
     "type": "web",
     "launch_path": "/index.html",
@@ -11,7 +11,7 @@
     },
     "developer": {
         "name": "Michelangelo Giacomelli",
-        "url": "https://www.michelangelog.com/"
+        "url": "https://michelangelo.altervista.org/dabomb"
     },
     "locales": {
         "en-US": {
