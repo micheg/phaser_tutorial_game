@@ -16,16 +16,21 @@ export default class StartScene extends Phaser.Scene
     {
         // ui
         this.add.image(CENTER_X, CENTER_Y, 'sky');
-        this.add.image(CENTER_X, CENTER_Y + 50, 'star');
-        this.add.image(CENTER_X, CENTER_Y - 60, 'star');
+        //this.add.image(CENTER_X, CENTER_Y + 50, 'star');
+        this.add.image(CENTER_X - 70, CENTER_Y - 55, 'star');
+        this.add.image(CENTER_X + 70, CENTER_Y - 55, 'star');
         this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
         this.add.bitmapText(4, HEIGHT - 17, 'pixelFont', 'About', 20);
         this.add.bitmapText(200, HEIGHT - 17, 'pixelFont', 'Rulez', 20);
-        let start_text = this.add.bitmapText(CENTER_X, CENTER_Y, 'pixelFont', 'START', 40);
-        start_text.setOrigin(0.5, 0.5);
+        let text_start = this.add.bitmapText(CENTER_X, CENTER_Y - 50, 'pixelFont', 'START', 40, 1);
+        let text_config = this.add.bitmapText(CENTER_X, CENTER_Y, 'pixelFont', 'CONFIG', 40, 1);
+        let text_exit = this.add.bitmapText(CENTER_X, CENTER_Y + 50, 'pixelFont', 'EXIT', 40, 1);
+        text_start.setOrigin(0.5, 0.5);
+        text_config.setOrigin(0.5, 0.5);
+        text_exit.setOrigin(0.5, 0.5);
 
         // Start button animation
-        this.add.tween(
+        /*this.add.tween(
         {
             targets: [start_text],
             ease: (k) => (k < 0.5 ? 0 : 1),
@@ -33,7 +38,7 @@ export default class StartScene extends Phaser.Scene
             yoyo: true,
             repeat: -1,
             alpha: 0
-        });
+        });*/
 
         // keybind
         this.startButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
