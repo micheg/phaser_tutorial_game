@@ -4,10 +4,11 @@ import BootScene from './scenes/BootScene';
 import StarScene from './scenes/StarScene';
 import AboutScene from './scenes/AboutScene';
 import IntroScene from './scenes/IntroScene';
+import GameScene from './scenes/GameScene';
 
 const gameConfig = Object.assign(config,
 {
-    scene: [BootScene, StarScene, AboutScene, IntroScene]
+    scene: [BootScene, StarScene, AboutScene, IntroScene, GameScene]
 });
 
 export default new Phaser.Game(gameConfig);

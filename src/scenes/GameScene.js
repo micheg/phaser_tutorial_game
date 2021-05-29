@@ -1,11 +1,11 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y } from '../cfg/cfg';
 import Phaser from 'phaser'
 
-export default class StartScene extends Phaser.Scene
+export default class GameScene extends Phaser.Scene
 {
     constructor()
     {
-        super('start-scene')
+        super('game-scene')
     }
 
     preload()
