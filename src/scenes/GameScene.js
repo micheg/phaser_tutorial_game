@@ -43,14 +43,14 @@ export default class GameScene extends Phaser.Scene
 
     uodate_keybind()
     {
-
         if (this.leftButton.isDown)
         {
+            this.scene.pause();
             this.scene.start('start-scene');
         }
     }
 
-    uodate()
+    update()
     {
         this.uodate_keybind();
     }

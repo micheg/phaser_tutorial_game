@@ -140,6 +140,7 @@ export default class StartScene extends Phaser.Scene
         switch (action)
         {
             case 'START':
+                this.scene.pause();
                 this.scene.start('game-scene');
                 break;
             case 'SOUND':
