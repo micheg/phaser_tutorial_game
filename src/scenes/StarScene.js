@@ -46,17 +46,6 @@ export default class StartScene extends Phaser.Scene
         text_exit.setOrigin(0.5, 0.5);
         this.text_config = text_config;
 
-        // Start button animation
-        /*this.add.tween(
-        {
-            targets: [start_text],
-            ease: (k) => (k < 0.5 ? 0 : 1),
-            duration: 250,
-            yoyo: true,
-            repeat: -1,
-            alpha: 0
-        });*/
-
         // keybind
         this.startButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.leftButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
@@ -81,10 +70,6 @@ export default class StartScene extends Phaser.Scene
                     this.scene.pause();
                     this.scene.start('about-scene');
                     break;
-                case 'Enter':
-                    //this.scene.start('game-scene');
-                    this.parse_enter();
-                    break;
                 case 'SoftRight':
                     this.scene.pause();
                     this.scene.start('intro-scene');
@@ -92,6 +77,9 @@ export default class StartScene extends Phaser.Scene
             }
         });
 
+        // read save data
+        const audio = localStorage.getItem('audio');
+        if(audio === 'off') this.text_config.text = 'AUDIO OFF';
     }
 
     uodate_keybind()
@@ -160,12 +148,9 @@ export default class StartScene extends Phaser.Scene
                 setTimeout(() =>
                 {
                     this.text_config.text = (text === 'AUDIO ON') ? 'AUDIO OFF': 'AUDIO ON';
-                },100)
-                
-                if(text === 'AUDIO ON')
-                window.TXT = this.text_config;
-                console.log("text " + text);
-                return -1;
+                    const tmp = this.text_config.text;
+                    localStorage.setItem('audio', (tmp === 'AUDIO ON') ? 'on' : 'off');
+                },100);
                 break;
             case 'EXIT':
                 window.close();
