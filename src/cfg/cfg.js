@@ -9,15 +9,20 @@ export default
     type: Phaser.AUTO,
     width: WIDTH,
     height: HEIGHT,
+    scale:
+    {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
     physics:
     {
         default: 'arcade',
         arcade:
         {
-            gravity: { y: 100 }
+            gravity: { y: 200 }
         }
     },
-    pixelArt: true
+    pixelArt: false
 };
 
 

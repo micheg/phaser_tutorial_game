@@ -1,4 +1,6 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y } from '../cfg/cfg';
+import { KEYS } from '../cfg/assets';
+
 import Phaser from 'phaser'
 
 export default class BootScene extends Phaser.Scene
@@ -10,13 +12,14 @@ export default class BootScene extends Phaser.Scene
 
     preload()
     {
-        this.load.image('sky', 'img/sky.png');
-        this.load.image('star', 'img/star.png');
-        this.load.image('bomb', 'img/bomb.png');
+        this.load.image(KEYS.SKY, 'img/sky.png');
+        this.load.image(KEYS.STAR, 'img/star.png');
+        this.load.image(KEYS.BOMB, 'img/bomb.png');
+        this.load.image(KEYS.GROUND, 'img/platform.png');
 
-        this.load.spritesheet('dude', 'img/dude.png',
+        this.load.spritesheet(KEYS.DUDE, 'img/dude.png',
         {
-            frameWidth: 32, frameHeight: 48
+            frameWidth: 16, frameHeight: 24
         });
 
         this.load.bitmapFont('pixelFont', 'font/font.png', 'font/font.xml');

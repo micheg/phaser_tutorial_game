@@ -1,5 +1,6 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y } from '../cfg/cfg';
 import Phaser from 'phaser'
+import { KEYS } from '../cfg/assets';
 
 export default class AboutScene extends Phaser.Scene
 {
@@ -19,16 +20,16 @@ export default class AboutScene extends Phaser.Scene
         const msg2 = 'of the official website tutorial'
         const msg3 = 'for KaiOS devices';
         // ui
-        this.add.image(CENTER_X, CENTER_Y, 'sky');
-        this.add.image(CENTER_X, 50, 'star');
+        this.add.image(CENTER_X, CENTER_Y, KEYS.SKY);
+        this.add.image(CENTER_X, 50, KEYS.STAR);
         this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
-        this.add.bitmapText(200, HEIGHT - 17, 'pixelFont', 'Menu', 20);
-        let about_text = this.add.bitmapText(CENTER_X, 100, 'pixelFont', 'ABOUT', 40);
+        this.add.bitmapText(200, HEIGHT - 17, KEYS.FONT, 'Menu', 20);
+        let about_text = this.add.bitmapText(CENTER_X, 100, KEYS.FONT, 'ABOUT', 40);
         about_text.setOrigin(0.5, 0.5);
 
         [msg1, msg2, msg3].forEach((txt, idx) =>
         {
-            let tmp = this.add.bitmapText(CENTER_X, CENTER_Y + 20*idx, 'pixelFont', txt, 20);
+            let tmp = this.add.bitmapText(CENTER_X, CENTER_Y + 20*idx, KEYS.FONT, txt, 20);
             tmp.setOrigin(0.5, 0.5);
         });
 
