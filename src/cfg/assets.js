@@ -5,5 +5,6 @@ export const KEYS =
     SKY: 'sky',
     STAR: 'star',
     DUDE: 'dude',
-    FONT: 'pixelFont'
+    FONT: 'pixelFont',
+    RED_STAR: 'red_star'
 };

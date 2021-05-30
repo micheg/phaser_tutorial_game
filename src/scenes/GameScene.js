@@ -17,11 +17,20 @@ export default class GameScene extends Phaser.Scene
 
     create()
     {
+        // ui
         this.create_background();
         this.create_kaios_menu();
-        const platforms = this.createPlatforms();
+
+        // game actors
+        const platforms = this.create_platforms();
         this.player = this.create_player();
+		const stars = this.create_stars();
+
+        // collision
+        this.physics.add.collider(stars, platforms);
         this.physics.add.collider(this.player, platforms);
+
+        // input
         this.cursors = this.input.keyboard.createCursorKeys();
     }
 
@@ -30,13 +39,13 @@ export default class GameScene extends Phaser.Scene
         this.add.image(CENTER_X, CENTER_Y, KEYS.SKY);
     }
 
-    createPlatforms()
+    create_platforms()
     {
         const platforms = this.physics.add.staticGroup();
         // bottom platform
         platforms.create(CENTER_X, HEIGHT - 30, KEYS.GROUND);
         // left platforms
-        platforms.create(-40, 80, KEYS.GROUND);
+        platforms.create(-60, 80, KEYS.GROUND);
         platforms.create(0, 210, KEYS.GROUND);
         // right platform
         platforms.create(280, 140, KEYS.GROUND);
@@ -91,6 +100,23 @@ export default class GameScene extends Phaser.Scene
 			repeat: -1
 		});
         return player;
+    }
+
+    create_stars()
+    {
+		const stars = this.physics.add.group(
+        {
+			key: KEYS.RED_STAR,
+			repeat: 8,
+			setXY: { x: 12, y: 0, stepX: 30 }
+		});
+		
+		stars.children.iterate((child) =>
+        {
+			child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+		});
+
+		return stars;
     }
 
     uodate_keybind()
