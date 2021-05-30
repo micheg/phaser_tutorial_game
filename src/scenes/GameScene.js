@@ -26,9 +26,11 @@ export default class GameScene extends Phaser.Scene
         this.player = this.create_player();
 		const stars = this.create_stars();
 
-        // collision
+        // collision with platform
         this.physics.add.collider(stars, platforms);
         this.physics.add.collider(this.player, platforms);
+        // collision with collectable
+        this.physics.add.overlap(this.player, stars, this.collect_star, null, this);
 
         // input
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -117,6 +119,11 @@ export default class GameScene extends Phaser.Scene
 		});
 
 		return stars;
+    }
+
+    collect_star(player, star)
+    {
+        star.disableBody(true, true);
     }
 
     uodate_keybind()
