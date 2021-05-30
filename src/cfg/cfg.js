@@ -19,12 +19,20 @@ export default
         default: 'arcade',
         arcade:
         {
-            gravity: { y: 200 }
+            gravity: { y: 320 }
         }
     },
-    pixelArt: false
+    pixelArt: true
 };
 
 
 export const CENTER_X = WIDTH / 2;
 export const CENTER_Y = HEIGHT / 2;
+export const PLAYER =
+{
+    SPEED:
+    {
+        x: 120,
+        y: 240
+    }
+};

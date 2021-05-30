@@ -1,4 +1,4 @@
-import { WIDTH, HEIGHT, CENTER_X, CENTER_Y } from '../cfg/cfg';
+import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER } from '../cfg/cfg';
 import { KEYS } from '../cfg/assets';
 import Phaser from 'phaser'
 
@@ -6,7 +6,9 @@ export default class GameScene extends Phaser.Scene
 {
     constructor()
     {
-        super('game-scene')
+        super('game-scene');
+		this.player = undefined;
+		this.cursors = undefined;
     }
 
     preload()
@@ -17,8 +19,10 @@ export default class GameScene extends Phaser.Scene
     {
         this.create_background();
         this.create_kaios_menu();
-        this.createPlatforms();
-        this.create_player();
+        const platforms = this.createPlatforms();
+        this.player = this.create_player();
+        this.physics.add.collider(this.player, platforms);
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
 
     create_background()
@@ -33,9 +37,10 @@ export default class GameScene extends Phaser.Scene
         platforms.create(CENTER_X, HEIGHT - 30, KEYS.GROUND);
         // left platforms
         platforms.create(-40, 80, KEYS.GROUND);
-        platforms.create(0, 200, KEYS.GROUND);
+        platforms.create(0, 210, KEYS.GROUND);
         // right platform
         platforms.create(280, 140, KEYS.GROUND);
+        return platforms;
     }
 
     create_kaios_menu()
@@ -59,9 +64,9 @@ export default class GameScene extends Phaser.Scene
 
     create_player()
     {
-		this.player = this.physics.add.sprite(100, 100, KEYS.DUDE)
-		this.player.setBounce(0.2)
-		this.player.setCollideWorldBounds(true)
+		const player = this.physics.add.sprite(100, 100, KEYS.DUDE)
+		player.setBounce(0.2)
+		player.setCollideWorldBounds(true)
 
 		this.anims.create(
         {
@@ -85,6 +90,7 @@ export default class GameScene extends Phaser.Scene
 			frameRate: 10,
 			repeat: -1
 		});
+        return player;
     }
 
     uodate_keybind()
@@ -96,8 +102,33 @@ export default class GameScene extends Phaser.Scene
         }
     }
 
+    update_keycontrols()
+    {
+		if (this.cursors.left.isDown)
+		{
+			this.player.setVelocityX(-PLAYER.SPEED.x);
+			this.player.anims.play('left', true);
+		}
+		else if (this.cursors.right.isDown)
+		{
+			this.player.setVelocityX(PLAYER.SPEED.x);
+			this.player.anims.play('right', true);
+		}
+		else
+		{
+			this.player.setVelocityX(0);
+			this.player.anims.play('turn');
+		}
+		//if (this.cursors.up.isDown && this.player.body.touching.down)
+        if (this.cursors.up.isDown && this.player.body.onFloor())
+		{
+			this.player.setVelocityY(-PLAYER.SPEED.y);
+		}
+    }
+
     update()
     {
         this.uodate_keybind();
+        this.update_keycontrols();
     }
 }
