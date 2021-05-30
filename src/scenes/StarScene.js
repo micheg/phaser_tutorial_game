@@ -7,7 +7,8 @@ export default class StartScene extends Phaser.Scene
 {
     constructor()
     {
-        super('start-scene')
+        super('start-scene');
+        this.down_flag = false;
     }
 
     preload()
@@ -88,14 +89,24 @@ export default class StartScene extends Phaser.Scene
     {
         if (this.startButton.isDown)
         {
-            this.parse_enter();
+            this.down_flag = true;
         }
-        else if (this.leftButton.isDown)
+        else
         {
+            if(this.down_flag)
+            {
+                this.down_flag = false;
+                this.parse_enter();
+            }
+        }
+        if (this.leftButton.isDown)
+        {
+            this.scene.pause();
             this.scene.start('about-scene');
         }
         else if (this.rightButton.isDown)
         {
+            this.scene.pause();
             this.scene.start('intro-scene');
         }
     }
@@ -153,7 +164,7 @@ export default class StartScene extends Phaser.Scene
                     this.text_config.text = (text === 'AUDIO ON') ? 'AUDIO OFF': 'AUDIO ON';
                     const tmp = this.text_config.text;
                     localStorage.setItem('audio', (tmp === 'AUDIO ON') ? 'on' : 'off');
-                },100);
+                },10);
                 break;
             case 'EXIT':
                 window.close();

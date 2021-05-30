@@ -17,9 +17,12 @@ export default class GameScene extends Phaser.Scene
 
     create()
     {
+        // debug 
+        window.$P = this;
         // ui
         this.create_background();
         this.create_kaios_menu();
+        this.create_kaios_keys();
 
         // game actors
         const platforms = this.create_platforms();
@@ -56,7 +59,9 @@ export default class GameScene extends Phaser.Scene
 
     create_kaios_menu()
     {
-        this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
+        // top header
+        this.add.rectangle(120, 10, 240, 20, 0x000000, 1);
+        this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000, 1);
         this.add.bitmapText(4, HEIGHT - 17, KEYS.FONT, 'Menu', 20);
 
         // kaios softkeys
@@ -71,6 +76,17 @@ export default class GameScene extends Phaser.Scene
             }
         });
         this.leftButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    }
+
+    create_kaios_keys()
+    {
+        this.kaios_keyboard = {};
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT);
+        this.kaios_keyboard.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
+        this.kaios_keyboard.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
+        this.kaios_keyboard.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX);
+        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+
     }
 
     create_player()
@@ -137,12 +153,20 @@ export default class GameScene extends Phaser.Scene
 
     update_keycontrols()
     {
-		if (this.cursors.left.isDown)
+        if (this.keyA.isDown)
+        {
+            console.log('A');
+        }
+        if (this.keyD.isDown)
+        {
+            console.log('D');
+        }
+		if (this.cursors.left.isDown || this.kaios_keyboard.left.isDown)
 		{
 			this.player.setVelocityX(-PLAYER.SPEED.x);
 			this.player.anims.play('left', true);
 		}
-		else if (this.cursors.right.isDown)
+		else if (this.cursors.right.isDown || this.kaios_keyboard.right.isDown)
 		{
 			this.player.setVelocityX(PLAYER.SPEED.x);
 			this.player.anims.play('right', true);
@@ -153,7 +177,10 @@ export default class GameScene extends Phaser.Scene
 			this.player.anims.play('turn');
 		}
 		//if (this.cursors.up.isDown && this.player.body.touching.down)
-        if (this.cursors.up.isDown && this.player.body.onFloor())
+        if(
+            (this.cursors.up.isDown && this.player.body.onFloor()) ||
+            (this.kaios_keyboard.up.isDown && this.player.body.onFloor())
+          )
 		{
 			this.player.setVelocityY(-PLAYER.SPEED.y);
 		}
