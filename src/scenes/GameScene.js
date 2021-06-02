@@ -1,9 +1,8 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER, INITIL_SCORES } from '../cfg/cfg';
 import { KEYS } from '../cfg/assets';
 import Phaser from 'phaser';
-import GenericLabel from '../ui/GenericLabel';
 import BombSpawner from '../utils/BombSpawner';
-
+import StarsSpawner from '../utils/StarsSpawner';
 
 export default class GameScene extends Phaser.Scene
 {
@@ -35,20 +34,20 @@ export default class GameScene extends Phaser.Scene
         const platforms = this.create_platforms();
         this.player = this.create_player();
         this.stars = this.create_stars();
-
+        const stars_group = this.stars.group;
         // da bomb!
         this.bomb_spawner = new BombSpawner(this);
         const bombs_group = this.bomb_spawner.group
 
         // collision with platform
-        this.physics.add.collider(this.stars, platforms);
+        this.physics.add.collider(stars_group, platforms);
         this.physics.add.collider(this.player, platforms);
         this.physics.add.collider(bombs_group, platforms);
 
         this.physics.add.collider(this.player, bombs_group, this.hit_bomb, null, this);
 
         // collision with collectable
-        this.physics.add.overlap(this.player, this.stars, this.collect_star, null, this);
+        this.physics.add.overlap(this.player, stars_group, this.collect_star, null, this);
 
         // input
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -140,19 +139,9 @@ export default class GameScene extends Phaser.Scene
 
     create_stars()
     {
-        const stars = this.physics.add.group(
-        {
-            key: KEYS.RED_STAR,
-            repeat: 7,
-            setXY: { x: 12, y: 0, stepX: 30 }
-        });
-        
-        stars.children.iterate((child) =>
-        {
-            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-        });
-
-        return stars;
+        const tmp = new StarsSpawner(this);
+        tmp.spawn();
+        return tmp;
     }
 
     collect_star(player, star)
@@ -160,13 +149,10 @@ export default class GameScene extends Phaser.Scene
         star.disableBody(true, true);
         //this.label_score.add(10);
         this.events.emit('add.score');
-
-        if (this.stars.countActive(true) === 0)
+        window.STARS = this.stars;
+        if(this.stars.are_zero)
         {
-            this.stars.children.iterate((child) =>
-            {
-                child.enableBody(true, child.x, 0, true, true)
-            });
+            this.stars.spawn();
             for(let i=0; i < this.get_cur_level(); i++)
             {
                 this.bomb_spawner.spawn(player.x);
