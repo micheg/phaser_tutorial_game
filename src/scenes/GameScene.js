@@ -1,14 +1,16 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER } from '../cfg/cfg';
 import { KEYS } from '../cfg/assets';
-import Phaser from 'phaser'
+import Phaser from 'phaser';
+import ScoreLabel from '../ui/ScoreLabel';
 
 export default class GameScene extends Phaser.Scene
 {
     constructor()
     {
         super('game-scene');
-		this.player = undefined;
-		this.cursors = undefined;
+        this.player = undefined;
+        this.cursors = undefined;
+        this.scoreLabel = undefined;
     }
 
     preload()
@@ -27,7 +29,10 @@ export default class GameScene extends Phaser.Scene
         // game actors
         const platforms = this.create_platforms();
         this.player = this.create_player();
-		const stars = this.create_stars();
+        const stars = this.create_stars();
+
+        // score label
+        this.score_label = this.create_score_label(5, 5, 0);
 
         // collision with platform
         this.physics.add.collider(stars, platforms);
@@ -91,55 +96,56 @@ export default class GameScene extends Phaser.Scene
 
     create_player()
     {
-		const player = this.physics.add.sprite(100, 100, KEYS.DUDE)
-		player.setBounce(0.2)
-		player.setCollideWorldBounds(true)
+        const player = this.physics.add.sprite(100, 100, KEYS.DUDE)
+        player.setBounce(0.2)
+        player.setCollideWorldBounds(true)
 
-		this.anims.create(
+        this.anims.create(
         {
-			key: 'left',
-			frames: this.anims.generateFrameNumbers(KEYS.DUDE, { start: 0, end: 3 }),
-			frameRate: 10,
-			repeat: -1
-		});
-		
-		this.anims.create(
+            key: 'left',
+            frames: this.anims.generateFrameNumbers(KEYS.DUDE, { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        
+        this.anims.create(
         {
-			key: 'turn',
-			frames: [ { key: KEYS.DUDE, frame: 4 } ],
-			frameRate: 20
-		});
-		
-		this.anims.create(
+            key: 'turn',
+            frames: [ { key: KEYS.DUDE, frame: 4 } ],
+            frameRate: 20
+        });
+        
+        this.anims.create(
         {
-			key: 'right',
-			frames: this.anims.generateFrameNumbers(KEYS.DUDE, { start: 5, end: 8 }),
-			frameRate: 10,
-			repeat: -1
-		});
+            key: 'right',
+            frames: this.anims.generateFrameNumbers(KEYS.DUDE, { start: 5, end: 8 }),
+            frameRate: 10,
+            repeat: -1
+        });
         return player;
     }
 
     create_stars()
     {
-		const stars = this.physics.add.group(
+        const stars = this.physics.add.group(
         {
-			key: KEYS.RED_STAR,
-			repeat: 8,
-			setXY: { x: 12, y: 0, stepX: 30 }
-		});
-		
-		stars.children.iterate((child) =>
+            key: KEYS.RED_STAR,
+            repeat: 8,
+            setXY: { x: 12, y: 0, stepX: 30 }
+        });
+        
+        stars.children.iterate((child) =>
         {
-			child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-		});
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+        });
 
-		return stars;
+        return stars;
     }
 
     collect_star(player, star)
     {
         star.disableBody(true, true);
+        this.score_label.add(10);
     }
 
     uodate_keybind()
@@ -161,29 +167,36 @@ export default class GameScene extends Phaser.Scene
         {
             console.log('D');
         }
-		if (this.cursors.left.isDown || this.kaios_keyboard.left.isDown)
-		{
-			this.player.setVelocityX(-PLAYER.SPEED.x);
-			this.player.anims.play('left', true);
-		}
-		else if (this.cursors.right.isDown || this.kaios_keyboard.right.isDown)
-		{
-			this.player.setVelocityX(PLAYER.SPEED.x);
-			this.player.anims.play('right', true);
-		}
-		else
-		{
-			this.player.setVelocityX(0);
-			this.player.anims.play('turn');
-		}
-		//if (this.cursors.up.isDown && this.player.body.touching.down)
+        if (this.cursors.left.isDown || this.kaios_keyboard.left.isDown)
+        {
+            this.player.setVelocityX(-PLAYER.SPEED.x);
+            this.player.anims.play('left', true);
+        }
+        else if (this.cursors.right.isDown || this.kaios_keyboard.right.isDown)
+        {
+            this.player.setVelocityX(PLAYER.SPEED.x);
+            this.player.anims.play('right', true);
+        }
+        else
+        {
+            this.player.setVelocityX(0);
+            this.player.anims.play('turn');
+        }
+        //if (this.cursors.up.isDown && this.player.body.touching.down)
         if(
             (this.cursors.up.isDown && this.player.body.onFloor()) ||
             (this.kaios_keyboard.up.isDown && this.player.body.onFloor())
           )
-		{
-			this.player.setVelocityY(-PLAYER.SPEED.y);
-		}
+        {
+            this.player.setVelocityY(-PLAYER.SPEED.y);
+        }
+    }
+
+    create_score_label(x, y, score)
+    {
+        const label = new ScoreLabel(this, x, y, score);
+        this.add.existing(label);
+        return label;
     }
 
     update()
