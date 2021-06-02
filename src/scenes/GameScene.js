@@ -16,8 +16,7 @@ export default class GameScene extends Phaser.Scene
         this.label_level = undefined;
         this.bomb_spawner = undefined;
         this.stars = undefined;
-        this.cur_level = 1;
-        this.game_over = false
+        window.$THIS = this;
     }
 
     preload()
@@ -26,8 +25,7 @@ export default class GameScene extends Phaser.Scene
 
     create()
     {
-        // debug 
-        window.$P = this;
+        this.game_over = false;
         // ui
         this.create_background();
         this.create_kaios_menu();
@@ -37,9 +35,6 @@ export default class GameScene extends Phaser.Scene
         const platforms = this.create_platforms();
         this.player = this.create_player();
         this.stars = this.create_stars();
-
-        // score label
-        [this.label_score, this.label_level] = this.create_labels(0, 1);
 
         // da bomb!
         this.bomb_spawner = new BombSpawner(this);
@@ -57,6 +52,9 @@ export default class GameScene extends Phaser.Scene
 
         // input
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        // hud
+        this.scene.launch('hud-scene');
     }
 
     create_background()
@@ -160,19 +158,20 @@ export default class GameScene extends Phaser.Scene
     collect_star(player, star)
     {
         star.disableBody(true, true);
-        this.label_score.add(10);
+        //this.label_score.add(10);
+        this.events.emit('add.score');
+
         if (this.stars.countActive(true) === 0)
         {
             this.stars.children.iterate((child) =>
             {
                 child.enableBody(true, child.x, 0, true, true)
             });
-            for(let i=0; i < this.cur_level; i++)
+            for(let i=0; i < this.get_cur_level(); i++)
             {
                 this.bomb_spawner.spawn(player.x);
             }
-            this.cur_level++;
-            this.label_level.add(1);
+            this.events.emit('add.level');
         }
     }
 
@@ -220,19 +219,6 @@ export default class GameScene extends Phaser.Scene
         }
     }
 
-    create_labels(initial_value, initial_level)
-    {
-        const formatScore = (score) => `Score: ${score}`;
-        const score_label = new GenericLabel(this, 5, 5, initial_value, formatScore);
-        this.add.existing(score_label);
-
-        const format_level = (level) => `Level: ${level}`;
-        const level_label = new GenericLabel(this, 170, 5, initial_level, format_level);
-        this.add.existing(level_label);
-
-        return [score_label, level_label];
-    }
-
     hit_bomb(player, bomb)
     {
         this.physics.pause();
@@ -240,7 +226,7 @@ export default class GameScene extends Phaser.Scene
         player.anims.play('turn');
         player.setFlip(true, true);
         this.game_over = true;
-        var timer = this.time.delayedCall(1000, game_over, null, this);
+        var timer = this.time.delayedCall(1000, this.game_over_action, null, this);
     }
 
     update()
@@ -252,8 +238,15 @@ export default class GameScene extends Phaser.Scene
         }
     }
 
-    game_over()
+    get_cur_level()
     {
+        return this.scene.get('hud-scene').get_level();
+    }
+
+    game_over_action()
+    {
+        const cur_scores = this.scene.get('hud-scene').get_score();
+        this.scene.stop('hud-scene');
         let scores = localStorage.getItem('scores');
         if(scores === null)
         {
@@ -263,7 +256,7 @@ export default class GameScene extends Phaser.Scene
         {
             scores = JSON.parse(scores);
         }
-        scores.push(this.label_score.get());
+        scores.push(cur_scores);
         scores.sort().reverse();
         scores = scores.slice(0, 10);
         localStorage.setItem('scores', JSON.stringify(scores));
