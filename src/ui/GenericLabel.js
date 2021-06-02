@@ -11,6 +11,11 @@ export default class GenericLabel extends Phaser.GameObjects.BitmapText
         this.value = value;
     }
 
+    get()
+    {
+        return this.value;
+    }
+
     set(value)
     {
         this.value  = value;

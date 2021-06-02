@@ -43,3 +43,5 @@ export const GAME =
         SCORE: 80
     }
 };
+
+export const INITIL_SCORES = [100,100,100,100,100,100,100,100,100, 100];

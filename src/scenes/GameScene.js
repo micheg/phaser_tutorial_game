@@ -1,4 +1,4 @@
-import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER } from '../cfg/cfg';
+import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER, INITIL_SCORES } from '../cfg/cfg';
 import { KEYS } from '../cfg/assets';
 import Phaser from 'phaser';
 import GenericLabel from '../ui/GenericLabel';
@@ -17,6 +17,7 @@ export default class GameScene extends Phaser.Scene
         this.bomb_spawner = undefined;
         this.stars = undefined;
         this.cur_level = 1;
+        this.game_over = false
     }
 
     preload()
@@ -47,7 +48,9 @@ export default class GameScene extends Phaser.Scene
         // collision with platform
         this.physics.add.collider(this.stars, platforms);
         this.physics.add.collider(this.player, platforms);
-        this.physics.add.collider(bombs_group, platforms)
+        this.physics.add.collider(bombs_group, platforms);
+
+        this.physics.add.collider(this.player, bombs_group, this.hit_bomb, null, this);
 
         // collision with collectable
         this.physics.add.overlap(this.player, this.stars, this.collect_star, null, this);
@@ -230,9 +233,41 @@ export default class GameScene extends Phaser.Scene
         return [score_label, level_label];
     }
 
+    hit_bomb(player, bomb)
+    {
+        this.physics.pause();
+        player.setTint(0xff0000);
+        player.anims.play('turn');
+        player.setFlip(true, true);
+        this.game_over = true;
+        var timer = this.time.delayedCall(1000, game_over, null, this);
+    }
+
     update()
     {
-        this.uodate_keybind();
-        this.update_keycontrols();
+        if(!this.game_over)
+        {
+            this.uodate_keybind();
+            this.update_keycontrols();
+        }
+    }
+
+    game_over()
+    {
+        let scores = localStorage.getItem('scores');
+        if(scores === null)
+        {
+            scores = JSON.parse(JSON.stringify(INITIL_SCORES));
+        }
+        else
+        {
+            scores = JSON.parse(scores);
+        }
+        scores.push(this.label_score.get());
+        scores.sort().reverse();
+        scores = scores.slice(0, 10);
+        localStorage.setItem('scores', JSON.stringify(scores));
+        this.scene.pause();
+        this.scene.start('start-scene');
     }
 }
