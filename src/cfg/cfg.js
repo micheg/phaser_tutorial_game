@@ -36,3 +36,10 @@ export const PLAYER =
         y: 240
     }
 };
+export const GAME = 
+{
+    LEVEL:
+    {
+        SCORE: 80
+    }
+};

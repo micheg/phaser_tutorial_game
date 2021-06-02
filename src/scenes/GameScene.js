@@ -2,6 +2,8 @@ import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER } from '../cfg/cfg';
 import { KEYS } from '../cfg/assets';
 import Phaser from 'phaser';
 import GenericLabel from '../ui/GenericLabel';
+import BombSpawner from '../utils/BombSpawner';
+
 
 export default class GameScene extends Phaser.Scene
 {
@@ -10,7 +12,11 @@ export default class GameScene extends Phaser.Scene
         super('game-scene');
         this.player = undefined;
         this.cursors = undefined;
-        this.scoreLabel = undefined;
+        this.label_score = undefined;
+        this.label_level = undefined;
+        this.bomb_spawner = undefined;
+        this.stars = undefined;
+        this.cur_level = 1;
     }
 
     preload()
@@ -29,16 +35,22 @@ export default class GameScene extends Phaser.Scene
         // game actors
         const platforms = this.create_platforms();
         this.player = this.create_player();
-        const stars = this.create_stars();
+        this.stars = this.create_stars();
 
         // score label
         [this.label_score, this.label_level] = this.create_labels(0, 1);
 
+        // da bomb!
+        this.bomb_spawner = new BombSpawner(this);
+        const bombs_group = this.bomb_spawner.group
+
         // collision with platform
-        this.physics.add.collider(stars, platforms);
+        this.physics.add.collider(this.stars, platforms);
         this.physics.add.collider(this.player, platforms);
+        this.physics.add.collider(bombs_group, platforms)
+
         // collision with collectable
-        this.physics.add.overlap(this.player, stars, this.collect_star, null, this);
+        this.physics.add.overlap(this.player, this.stars, this.collect_star, null, this);
 
         // input
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -130,7 +142,7 @@ export default class GameScene extends Phaser.Scene
         const stars = this.physics.add.group(
         {
             key: KEYS.RED_STAR,
-            repeat: 8,
+            repeat: 7,
             setXY: { x: 12, y: 0, stepX: 30 }
         });
         
@@ -146,6 +158,19 @@ export default class GameScene extends Phaser.Scene
     {
         star.disableBody(true, true);
         this.label_score.add(10);
+        if (this.stars.countActive(true) === 0)
+        {
+            this.stars.children.iterate((child) =>
+            {
+                child.enableBody(true, child.x, 0, true, true)
+            });
+            for(let i=0; i < this.cur_level; i++)
+            {
+                this.bomb_spawner.spawn(player.x);
+            }
+            this.cur_level++;
+            this.label_level.add(1);
+        }
     }
 
     uodate_keybind()
