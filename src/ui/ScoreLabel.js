@@ -14,7 +14,7 @@ export default class ScoreLabel extends Phaser.GameObjects.BitmapText
     setScore(score)
     {
         this.score  = score;
-        this.updateScoreText();
+        this.updateText();
     }
 
     add(points)
@@ -22,7 +22,7 @@ export default class ScoreLabel extends Phaser.GameObjects.BitmapText
         this.setScore(this.score + points);
     }
 
-    updateScoreText()
+    updateText()
     {
         this.setText(formatScore(this.score));
     }

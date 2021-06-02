@@ -1,7 +1,7 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER } from '../cfg/cfg';
 import { KEYS } from '../cfg/assets';
 import Phaser from 'phaser';
-import ScoreLabel from '../ui/ScoreLabel';
+import GenericLabel from '../ui/GenericLabel';
 
 export default class GameScene extends Phaser.Scene
 {
@@ -32,7 +32,7 @@ export default class GameScene extends Phaser.Scene
         const stars = this.create_stars();
 
         // score label
-        this.score_label = this.create_score_label(5, 5, 0);
+        [this.label_score, this.label_level] = this.create_labels(0, 1);
 
         // collision with platform
         this.physics.add.collider(stars, platforms);
@@ -145,7 +145,7 @@ export default class GameScene extends Phaser.Scene
     collect_star(player, star)
     {
         star.disableBody(true, true);
-        this.score_label.add(10);
+        this.label_score.add(10);
     }
 
     uodate_keybind()
@@ -192,11 +192,17 @@ export default class GameScene extends Phaser.Scene
         }
     }
 
-    create_score_label(x, y, score)
+    create_labels(initial_value, initial_level)
     {
-        const label = new ScoreLabel(this, x, y, score);
-        this.add.existing(label);
-        return label;
+        const formatScore = (score) => `Score: ${score}`;
+        const score_label = new GenericLabel(this, 5, 5, initial_value, formatScore);
+        this.add.existing(score_label);
+
+        const format_level = (level) => `Level: ${level}`;
+        const level_label = new GenericLabel(this, 170, 5, initial_level, format_level);
+        this.add.existing(level_label);
+
+        return [score_label, level_label];
     }
 
     update()
