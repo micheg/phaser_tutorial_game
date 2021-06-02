@@ -24,6 +24,12 @@ module.scores_save = (data) =>
 module.audio_is_on = () =>
 {
     const audio = localStorage.getItem('audio');
+    // first time
+    if(audio === null)
+    {
+        localStorage.setItem('audio', 'on');
+        return true;
+    }
     return (audio === 'on');
 };
 
