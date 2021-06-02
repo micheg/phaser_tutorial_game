@@ -30,10 +30,10 @@ export default class BootScene extends Phaser.Scene
         this.load.bitmapFont('pixelFont', 'font/font.png', 'font/font.xml');
 
         // load music
-        this.load.audio(SND.PICKUP, ['snd/pickup.ogg', 'snd/pickup.mp3']);
-        this.load.audio(SND.OVER, ['snd/over.ogg', 'snd/over.mp3']);
-        this.load.audio(SND.BEAM, ['snd/beam.ogg', 'snd/beam.mp3']);
-        this.load.audio(SND.MUSIC, ['snd/bg.ogg', 'snd/bg.mp3']);
+        this.load.audio(SND.PICKUP, 'snd/pickup.ogg');
+        this.load.audio(SND.OVER, 'snd/over.ogg');
+        this.load.audio(SND.BEAM, 'snd/beam.ogg');
+        this.load.audio(SND.MUSIC, 'snd/bg.ogg');
     }
 
     create()
