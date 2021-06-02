@@ -118,3 +118,6 @@ dist
 
 # osx
 .DS_Store
+
+# packaged app
+dabomb.zip
