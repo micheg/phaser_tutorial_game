@@ -30,7 +30,8 @@ An even more minimal template (showing only the animated logo) can be found here
 ## Still Missing:
 
 * KaiAds integration.
+* Publication on the KaiOS store
 
 ## Tested on:
 
-* Nokia 8110 4G
+* [Nokia 8110 4G](https://www.nokia.com/phones/it_it/support/nokia-8110-4g-user-guide)
