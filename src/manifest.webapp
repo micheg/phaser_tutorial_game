@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "name": "Phaser3.Simple.Game",
-    "description": "Phaser 3 Sample Game.",
+    "name": "com.michelangelog.dabomb",
+    "description": "Da BOMB! Game",
     "type": "web",
     "launch_path": "/index.html",
     "fullscreen": "true",
@@ -15,9 +15,9 @@
     },
     "locales": {
         "en-US": {
-            "name": "Phaser 3 Sample Game",
-            "subtitle": "Phaser 3 Sample Game",
-            "description": "Phaser 3 Sample Game for KaiOS devices."
+            "name": "Da BOMB!",
+            "subtitle": "A Phaser 3 Sample Game",
+            "description": "A ultra casual game for KaiOS devices."
         }
     },
     "categories": ["game"],
