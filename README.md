@@ -22,7 +22,9 @@ The game is very simple consists in moving between some platforms, collecting as
 
 An even more minimal template (showing only the animated logo) can be found here:
 
-* [phaser3_kaios](https://github.com/micheg/phaser3_kaios) It can be a good place to start, it already includes:
+* [phaser3_kaios](https://github.com/micheg/phaser3_kaios)
+
+It can be a good place to start, it already includes:
 
 * Parcel
 * Phaser III
