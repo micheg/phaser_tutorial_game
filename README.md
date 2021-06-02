@@ -16,3 +16,16 @@ The game is very simple consists in moving between some platforms, collecting as
 ![menu](https://michelangelo.altervista.org/dabomb/assets/img/01.png)
 ![in game](https://michelangelo.altervista.org/dabomb/assets/img/02.png)
 ![scores](https://michelangelo.altervista.org/dabomb/assets/img/03.png)
+
+## Template
+
+An even more minimal template (showing only the animated logo) can be found here:
+(phaser3_kaios)[https://github.com/micheg/phaser3_kaios] It can be a good place to start, it already includes:
+
+* Parcel
+* Phaser III
+* ES6
+
+## Still Missing:
+
+* KaiAds 
