@@ -212,7 +212,8 @@ export default class GameScene extends Phaser.Scene
         player.anims.play('turn');
         player.setFlip(true, true);
         this.game_over = true;
-        var timer = this.time.delayedCall(1000, this.game_over_action, null, this);
+        this.add.bitmapText(CENTER_X, CENTER_Y, KEYS.FONT, 'GAME OVER!', 40, 1).setOrigin(0.5, 0.5);
+        var timer = this.time.delayedCall(2000, this.game_over_action, null, this);
     }
 
     update()
@@ -243,10 +244,10 @@ export default class GameScene extends Phaser.Scene
             scores = JSON.parse(scores);
         }
         scores.push(cur_scores);
-        scores.sort().reverse();
+        scores = scores.sort((a,b) =>  b-a);
         scores = scores.slice(0, 10);
         localStorage.setItem('scores', JSON.stringify(scores));
         this.scene.pause();
-        this.scene.start('start-scene');
+        this.scene.start('score-scene');
     }
 }

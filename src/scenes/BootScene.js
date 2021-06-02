@@ -17,6 +17,7 @@ export default class BootScene extends Phaser.Scene
         this.load.image(KEYS.RED_STAR, 'img/red_star.png');
         this.load.image(KEYS.BOMB, 'img/bomb.png');
         this.load.image(KEYS.GROUND, 'img/platform.png');
+        this.load.image(KEYS.BOMB_LOGO, 'img/da_bomb.png');
 
         this.load.spritesheet(KEYS.DUDE, 'img/dude.png',
         {

@@ -9,6 +9,8 @@ export default class StartScene extends Phaser.Scene
     {
         super('start-scene');
         this.down_flag = false;
+        this.prev_obj = undefined;
+        this.alpha_inc = 0;
     }
 
     preload()
@@ -17,37 +19,44 @@ export default class StartScene extends Phaser.Scene
 
     create()
     {
-        this.positions =
-        [
-            {
-                y: CENTER_Y - 55,
-                action: 'START'
-            },
-            {
-                y: CENTER_Y - 5,
-                action: 'SOUND'
-            },
-            {
-                y: CENTER_Y + 45,
-                action: 'EXIT'
-            }
-        ];
         this.current_position = 0;
         // ui
-        this.add.image(CENTER_X, CENTER_Y, 'sky');
-        this.star1 = this.add.image(CENTER_X - 100, CENTER_Y - 55, 'star');
-        this.star2 = this.add.image(CENTER_X + 100, CENTER_Y - 55, 'star');
-        window.STAR1 = this.star1;
+        this.add.image(CENTER_X, CENTER_Y, KEYS.SKY);
+        this.star1 = this.add.image(CENTER_X - 100, CENTER_Y - 55, KEYS.STAR);
+        this.star2 = this.add.image(CENTER_X + 100, CENTER_Y - 55, KEYS.STAR);
+        this.logo = this.add.image(CENTER_X, 70, KEYS.BOMB_LOGO);
         this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
         this.add.bitmapText(4, HEIGHT - 17, KEYS.FONT, 'About', 20);
         this.add.bitmapText(200, HEIGHT - 17, KEYS.FONT, 'Rulez', 20);
-        let text_start = this.add.bitmapText(CENTER_X, CENTER_Y - 50, KEYS.FONT, 'START', 40, 1);
-        let text_config = this.add.bitmapText(CENTER_X, CENTER_Y, KEYS.FONT, 'AUDIO ON', 40, 1);
-        let text_exit = this.add.bitmapText(CENTER_X, CENTER_Y + 50, KEYS.FONT, 'EXIT', 40, 1);
+        let text_start = this.add.bitmapText(CENTER_X, CENTER_Y, KEYS.FONT, 'START', 40, 1);
+        let text_config = this.add.bitmapText(CENTER_X, CENTER_Y + 50, KEYS.FONT, 'AUDIO ON', 40, 1);
+        let text_exit = this.add.bitmapText(CENTER_X, CENTER_Y + 100, KEYS.FONT, 'EXIT', 40, 1);
         text_start.setOrigin(0.5, 0.5);
         text_config.setOrigin(0.5, 0.5);
         text_exit.setOrigin(0.5, 0.5);
         this.text_config = text_config;
+
+        this.positions =
+        [
+            {
+                y: CENTER_Y -5,
+                action: 'START',
+                obj: text_start,
+                anim: false
+            },
+            {
+                y: CENTER_Y + 45,
+                action: 'SOUND',
+                obj: text_config,
+                anim: false
+            },
+            {
+                y: CENTER_Y + 95,
+                action: 'EXIT',
+                obj: text_exit,
+                anim: false
+            }
+        ];
 
         // keybind
         this.startButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -147,6 +156,27 @@ export default class StartScene extends Phaser.Scene
         this.star2.y = this.positions[this.current_position].y;
     }
 
+    cur_menu_tween()
+    {
+        let cur_obj = this.positions[this.current_position].obj;
+        for(let i=0; i<this.positions.length; i++)
+        {
+            if(i !== this.current_position)
+            {
+                this.positions[i].obj.alpha = 1;
+            }
+        }
+        if(cur_obj.alpha == 1)
+        {
+            this.alpha_inc = -0.05;
+        }
+        else if(cur_obj.alpha == 0)
+        {
+            this.alpha_inc = 0.05;
+        }
+        cur_obj.alpha += this.alpha_inc;
+    }
+
     parse_enter()
     {
         const action = this.positions[this.current_position].action;
@@ -157,7 +187,6 @@ export default class StartScene extends Phaser.Scene
                 this.scene.start('game-scene');
                 break;
             case 'SOUND':
-                console.log("SD");
                 let text = this.text_config.text;
                 setTimeout(() =>
                 {
@@ -177,5 +206,6 @@ export default class StartScene extends Phaser.Scene
         this.uodate_keybind();
         this.update_keypad();
         this.update_ui_menu();
+        this.cur_menu_tween();
     }
 }
