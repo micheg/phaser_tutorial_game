@@ -7,5 +7,6 @@ export const KEYS =
     DUDE: 'dude',
     FONT: 'pixelFont',
     RED_STAR: 'red_star',
-    BOMB_LOGO: 'da_bomb'
+    BOMB_LOGO: 'da_bomb',
+    SCORE_BG: 'score_bg'
 };

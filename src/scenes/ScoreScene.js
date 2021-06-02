@@ -14,27 +14,17 @@ export default class ScoreScene extends Phaser.Scene
     {
     }
 
+    create_background()
+    {
+        this.add.image(CENTER_X, CENTER_Y, KEYS.SCORE_BG);
+    }
+
     create()
     {
-        this.positions =
-        [
-            {
-                y: CENTER_Y - 55,
-                action: 'START'
-            },
-            {
-                y: CENTER_Y - 5,
-                action: 'SOUND'
-            },
-            {
-                y: CENTER_Y + 45,
-                action: 'EXIT'
-            }
-        ];
-        this.current_position = 0;
+        this.create_background();
         // ui
-
         this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
+        this.add.rectangle(CENTER_X, HEIGHT - 22, WIDTH, 2, 0xffffff);
         this.add.bitmapText(4, HEIGHT - 17, KEYS.FONT, 'Menu', 20);
 
         // keybind

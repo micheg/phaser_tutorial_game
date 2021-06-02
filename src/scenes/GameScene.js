@@ -15,7 +15,6 @@ export default class GameScene extends Phaser.Scene
         this.label_level = undefined;
         this.bomb_spawner = undefined;
         this.stars = undefined;
-        window.$THIS = this;
     }
 
     preload()
@@ -98,12 +97,9 @@ export default class GameScene extends Phaser.Scene
     create_kaios_keys()
     {
         this.kaios_keyboard = {};
-        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT);
         this.kaios_keyboard.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
         this.kaios_keyboard.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
         this.kaios_keyboard.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX);
-        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-
     }
 
     create_player()
@@ -147,9 +143,7 @@ export default class GameScene extends Phaser.Scene
     collect_star(player, star)
     {
         star.disableBody(true, true);
-        //this.label_score.add(10);
         this.events.emit('add.score');
-        window.STARS = this.stars;
         if(this.stars.are_zero)
         {
             this.stars.spawn();
@@ -172,14 +166,6 @@ export default class GameScene extends Phaser.Scene
 
     update_keycontrols()
     {
-        if (this.keyA.isDown)
-        {
-            console.log('A');
-        }
-        if (this.keyD.isDown)
-        {
-            console.log('D');
-        }
         if (this.cursors.left.isDown || this.kaios_keyboard.left.isDown)
         {
             this.player.setVelocityX(-PLAYER.SPEED.x);
@@ -195,7 +181,6 @@ export default class GameScene extends Phaser.Scene
             this.player.setVelocityX(0);
             this.player.anims.play('turn');
         }
-        //if (this.cursors.up.isDown && this.player.body.touching.down)
         if(
             (this.cursors.up.isDown && this.player.body.onFloor()) ||
             (this.kaios_keyboard.up.isDown && this.player.body.onFloor())
