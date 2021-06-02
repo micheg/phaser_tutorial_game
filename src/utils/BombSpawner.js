@@ -1,10 +1,10 @@
 import Phaser from 'phaser'
-import { KEYS } from '../cfg/assets';
+import { IMG } from '../cfg/assets';
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER } from '../cfg/cfg';
 
 export default class BombSpawner
 {
-    constructor(scene, bombKey = KEYS.BOMB)
+    constructor(scene, bombKey = IMG.BOMB)
     {
         this.scene = scene
         this.key = bombKey

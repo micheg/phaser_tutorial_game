@@ -1,5 +1,5 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y } from '../cfg/cfg';
-import { KEYS } from '../cfg/assets';
+import { IMG } from '../cfg/assets';
 
 import Phaser from 'phaser'
 
@@ -13,24 +13,20 @@ export default class StartScene extends Phaser.Scene
         this.alpha_inc = 0;
     }
 
-    preload()
-    {
-    }
-
     create()
     {
         this.current_position = 0;
         // ui
-        this.add.image(CENTER_X, CENTER_Y, KEYS.SKY);
-        this.star1 = this.add.image(CENTER_X - 100, CENTER_Y - 55, KEYS.STAR);
-        this.star2 = this.add.image(CENTER_X + 100, CENTER_Y - 55, KEYS.STAR);
-        this.logo = this.add.image(CENTER_X, 70, KEYS.BOMB_LOGO);
+        this.add.image(CENTER_X, CENTER_Y, IMG.SKY);
+        this.star1 = this.add.image(CENTER_X - 100, CENTER_Y - 55, IMG.STAR);
+        this.star2 = this.add.image(CENTER_X + 100, CENTER_Y - 55, IMG.STAR);
+        this.logo = this.add.image(CENTER_X, 70, IMG.BOMB_LOGO);
         this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
-        this.add.bitmapText(4, HEIGHT - 17, KEYS.FONT, 'About', 20);
-        this.add.bitmapText(200, HEIGHT - 17, KEYS.FONT, 'Rulez', 20);
-        let text_start = this.add.bitmapText(CENTER_X, CENTER_Y, KEYS.FONT, 'START', 40, 1);
-        let text_config = this.add.bitmapText(CENTER_X, CENTER_Y + 50, KEYS.FONT, 'AUDIO ON', 40, 1);
-        let text_exit = this.add.bitmapText(CENTER_X, CENTER_Y + 100, KEYS.FONT, 'EXIT', 40, 1);
+        this.add.bitmapText(4, HEIGHT - 17, IMG.FONT, 'About', 20);
+        this.add.bitmapText(200, HEIGHT - 17, IMG.FONT, 'Rulez', 20);
+        let text_start = this.add.bitmapText(CENTER_X, CENTER_Y, IMG.FONT, 'START', 40, 1);
+        let text_config = this.add.bitmapText(CENTER_X, CENTER_Y + 50, IMG.FONT, 'AUDIO ON', 40, 1);
+        let text_exit = this.add.bitmapText(CENTER_X, CENTER_Y + 100, IMG.FONT, 'EXIT', 40, 1);
         text_start.setOrigin(0.5, 0.5);
         text_config.setOrigin(0.5, 0.5);
         text_exit.setOrigin(0.5, 0.5);

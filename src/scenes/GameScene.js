@@ -1,8 +1,9 @@
-import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER, INITIL_SCORES } from '../cfg/cfg';
-import { KEYS } from '../cfg/assets';
+import { WIDTH, HEIGHT, CENTER_X, CENTER_Y, PLAYER } from '../cfg/cfg';
+import { IMG, SND } from '../cfg/assets';
 import Phaser from 'phaser';
 import BombSpawner from '../utils/BombSpawner';
 import StarsSpawner from '../utils/StarsSpawner';
+import Utils from '../utils/utils';
 
 export default class GameScene extends Phaser.Scene
 {
@@ -17,10 +18,6 @@ export default class GameScene extends Phaser.Scene
         this.stars = undefined;
     }
 
-    preload()
-    {
-    }
-
     create()
     {
         this.game_over = false;
@@ -28,6 +25,8 @@ export default class GameScene extends Phaser.Scene
         this.create_background();
         this.create_kaios_menu();
         this.create_kaios_keys();
+        this.create_audio();
+        this.audio_is_on = Utils.audio_is_on();
 
         // game actors
         const platforms = this.create_platforms();
@@ -55,21 +54,30 @@ export default class GameScene extends Phaser.Scene
         this.scene.launch('hud-scene');
     }
 
+    create_audio()
+    {
+        this.sounds =
+        {
+            pickup: this.sound.add(SND.PICKUP),
+            over: this.sound.add(SND.OVER)
+        };
+    }
+
     create_background()
     {
-        this.add.image(CENTER_X, CENTER_Y, KEYS.SKY);
+        this.add.image(CENTER_X, CENTER_Y, IMG.SKY);
     }
 
     create_platforms()
     {
         const platforms = this.physics.add.staticGroup();
         // bottom platform
-        platforms.create(CENTER_X, HEIGHT - 30, KEYS.GROUND);
+        platforms.create(CENTER_X, HEIGHT - 30, IMG.GROUND);
         // left platforms
-        platforms.create(-60, 80, KEYS.GROUND);
-        platforms.create(0, 210, KEYS.GROUND);
+        platforms.create(-60, 80, IMG.GROUND);
+        platforms.create(0, 210, IMG.GROUND);
         // right platform
-        platforms.create(280, 140, KEYS.GROUND);
+        platforms.create(280, 140, IMG.GROUND);
         return platforms;
     }
 
@@ -78,7 +86,7 @@ export default class GameScene extends Phaser.Scene
         // top header
         this.add.rectangle(120, 10, 240, 20, 0x000000, 1);
         this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000, 1);
-        this.add.bitmapText(4, HEIGHT - 17, KEYS.FONT, 'Menu', 20);
+        this.add.bitmapText(4, HEIGHT - 17, IMG.FONT, 'Menu', 20);
 
         // kaios softkeys
         this.input.keyboard.on( 'keydown', (e) =>
@@ -104,14 +112,14 @@ export default class GameScene extends Phaser.Scene
 
     create_player()
     {
-        const player = this.physics.add.sprite(100, 100, KEYS.DUDE)
+        const player = this.physics.add.sprite(100, 100, IMG.DUDE)
         player.setBounce(0.2)
         player.setCollideWorldBounds(true)
 
         this.anims.create(
         {
             key: 'left',
-            frames: this.anims.generateFrameNumbers(KEYS.DUDE, { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers(IMG.DUDE, { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
         });
@@ -119,14 +127,14 @@ export default class GameScene extends Phaser.Scene
         this.anims.create(
         {
             key: 'turn',
-            frames: [ { key: KEYS.DUDE, frame: 4 } ],
+            frames: [ { key: IMG.DUDE, frame: 4 } ],
             frameRate: 20
         });
         
         this.anims.create(
         {
             key: 'right',
-            frames: this.anims.generateFrameNumbers(KEYS.DUDE, { start: 5, end: 8 }),
+            frames: this.anims.generateFrameNumbers(IMG.DUDE, { start: 5, end: 8 }),
             frameRate: 10,
             repeat: -1
         });
@@ -143,6 +151,7 @@ export default class GameScene extends Phaser.Scene
     collect_star(player, star)
     {
         star.disableBody(true, true);
+        if(this.audio_is_on) this.sounds.pickup.play();
         this.events.emit('add.score');
         if(this.stars.are_zero)
         {
@@ -192,12 +201,13 @@ export default class GameScene extends Phaser.Scene
 
     hit_bomb(player, bomb)
     {
+        if(this.audio_is_on) this.sounds.over.play();
         this.physics.pause();
         player.setTint(0xff0000);
         player.anims.play('turn');
         player.setFlip(true, true);
         this.game_over = true;
-        this.add.bitmapText(CENTER_X, CENTER_Y, KEYS.FONT, 'GAME OVER!', 40, 1).setOrigin(0.5, 0.5);
+        this.add.bitmapText(CENTER_X, CENTER_Y, IMG.FONT, 'GAME OVER!', 40, 1).setOrigin(0.5, 0.5);
         var timer = this.time.delayedCall(2000, this.game_over_action, null, this);
     }
 
@@ -219,19 +229,11 @@ export default class GameScene extends Phaser.Scene
     {
         const cur_scores = this.scene.get('hud-scene').get_score();
         this.scene.stop('hud-scene');
-        let scores = localStorage.getItem('scores');
-        if(scores === null)
-        {
-            scores = JSON.parse(JSON.stringify(INITIL_SCORES));
-        }
-        else
-        {
-            scores = JSON.parse(scores);
-        }
+        let scores = Utils.scores_load();
         scores.push(cur_scores);
         scores = scores.sort((a,b) =>  b-a);
         scores = scores.slice(0, 10);
-        localStorage.setItem('scores', JSON.stringify(scores));
+        Utils.scores_save(scores);
         this.scene.pause();
         this.scene.start('score-scene');
     }

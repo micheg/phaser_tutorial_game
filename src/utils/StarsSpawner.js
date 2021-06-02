@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
-import { KEYS } from '../cfg/assets';
+import { IMG } from '../cfg/assets';
 
 export default class StarsSpawner
 {
-    constructor(scene, star_key = KEYS.RED_STAR)
+    constructor(scene, star_key = IMG.RED_STAR)
     {
         this.scene = scene;
         this.key = star_key;
@@ -26,7 +26,7 @@ export default class StarsSpawner
         {
             const stars = this.scene.physics.add.group(
             {
-                key: KEYS.RED_STAR,
+                key: IMG.RED_STAR,
                 repeat: 7,
                 setXY: { x: 12, y: 0, stepX: 30 }
             });

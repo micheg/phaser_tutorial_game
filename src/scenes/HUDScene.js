@@ -1,4 +1,4 @@
-import { KEYS } from '../cfg/assets';
+import { IMG } from '../cfg/assets';
 import Phaser from 'phaser';
 import GenericLabel from '../ui/GenericLabel';
 

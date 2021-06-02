@@ -1,5 +1,5 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y } from '../cfg/cfg';
-import { KEYS } from '../cfg/assets';
+import { IMG } from '../cfg/assets';
 import Phaser from 'phaser'
 
 export default class AboutScene extends Phaser.Scene
@@ -20,17 +20,17 @@ export default class AboutScene extends Phaser.Scene
         const msg2 = 'to move the player, get the'
         const msg3 = 'stars and avoid the bombs';
         // ui
-        this.add.image(CENTER_X, CENTER_Y, KEYS.SKY);
-        this.add.image(CENTER_X, 50, KEYS.STAR);
+        this.add.image(CENTER_X, CENTER_Y, IMG.SKY);
+        this.add.image(CENTER_X, 50, IMG.STAR);
         this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
 
-        this.add.bitmapText(4, HEIGHT - 17, KEYS.FONT, 'Menu', 20);
-        let about_text = this.add.bitmapText(CENTER_X, 100, KEYS.FONT, 'INSTRUCTIONS', 40);
+        this.add.bitmapText(4, HEIGHT - 17, IMG.FONT, 'Menu', 20);
+        let about_text = this.add.bitmapText(CENTER_X, 100, IMG.FONT, 'INSTRUCTIONS', 40);
         about_text.setOrigin(0.5, 0.5);
 
         [msg1, msg2, msg3].forEach((txt, idx) =>
         {
-            let tmp = this.add.bitmapText(CENTER_X, CENTER_Y + 20*idx, KEYS.FONT, txt, 20);
+            let tmp = this.add.bitmapText(CENTER_X, CENTER_Y + 20*idx, IMG.FONT, txt, 20);
             tmp.setOrigin(0.5, 0.5);
         });
 
