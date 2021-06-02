@@ -39,3 +39,12 @@ It can be a good place to start, it already includes:
 ## Tested on:
 
 * [Nokia 8110 4G](https://www.nokia.com/phones/it_it/support/nokia-8110-4g-user-guide)
+
+## Build (tested on Linux and OSX)
+
+    git clone https://github.com/micheg/phaser_tutorial_game
+    npm install
+    npm run dev (for testing)
+    npm run build (for building)
+    npm run deploy (require a KaiOS Phone and gdeploy)
+    npm run make_zip (require an *nix like os)

@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "parcel src/index.html -p 8080",
         "build": "parcel build src/index.html --out-dir dist --no-source-maps",
-        "make_app": "touch dabomb.zip && rm dabomb.zip && cd dist && zip -r ../dabomb.zip * && cd ..",
+        "make_zip": "touch dabomb.zip && rm dabomb.zip && cd dist && zip -r ../dabomb.zip * && cd ..",
         "deploy": "gdeploy install ./dist"
     },
     "author": "micheg",
