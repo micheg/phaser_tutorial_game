@@ -16,5 +16,6 @@ export const SND =
     BEAM: 'beam',
     PICKUP: 'pickup',
     OVER: 'over',
+    BEAM: 'beam',
     MUSIC: 'music'
 };

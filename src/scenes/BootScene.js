@@ -32,11 +32,13 @@ export default class BootScene extends Phaser.Scene
         // load music
         this.load.audio(SND.PICKUP, ['snd/pickup.ogg', 'snd/pickup.mp3']);
         this.load.audio(SND.OVER, ['snd/over.ogg', 'snd/over.mp3']);
+        this.load.audio(SND.BEAM, ['snd/beam.ogg', 'snd/beam.mp3']);
         this.load.audio(SND.MUSIC, ['snd/bg.ogg', 'snd/bg.mp3']);
     }
 
     create()
     {
+        this.scene.launch('bgm-scene');
         this.scene.start('start-scene');
     }
 }

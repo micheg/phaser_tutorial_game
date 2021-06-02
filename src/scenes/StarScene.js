@@ -189,6 +189,14 @@ export default class StartScene extends Phaser.Scene
                     this.text_config.text = (text === 'AUDIO ON') ? 'AUDIO OFF': 'AUDIO ON';
                     const tmp = this.text_config.text;
                     localStorage.setItem('audio', (tmp === 'AUDIO ON') ? 'on' : 'off');
+                    if(tmp === 'AUDIO ON')
+                    {
+                        this.events.emit('snd.on');
+                    }
+                    else
+                    {
+                        this.events.emit('snd.off');
+                    }
                 },10);
                 break;
             case 'EXIT':

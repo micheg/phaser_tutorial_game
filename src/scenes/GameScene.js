@@ -59,7 +59,8 @@ export default class GameScene extends Phaser.Scene
         this.sounds =
         {
             pickup: this.sound.add(SND.PICKUP),
-            over: this.sound.add(SND.OVER)
+            over: this.sound.add(SND.OVER),
+            beam: this.sound.add(SND.BEAM)
         };
     }
 
@@ -159,6 +160,7 @@ export default class GameScene extends Phaser.Scene
             for(let i=0; i < this.get_cur_level(); i++)
             {
                 this.bomb_spawner.spawn(player.x);
+                if(this.audio_is_on) this.sounds.beam.play();
             }
             this.events.emit('add.level');
         }
