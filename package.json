@@ -6,7 +6,7 @@
         "dev": "parcel src/index.html -p 8080",
         "build": "parcel build src/index.html --out-dir dist --no-source-maps",
         "make_app": "touch dabomb.zip && rm dabomb.zip && cd dist && zip -r ../dabomb.zip * && cd ..",
-        "install": "gdeploy install ./dist"
+        "deploy": "gdeploy install ./dist"
     },
     "author": "micheg",
     "keywords": [
