@@ -5,7 +5,8 @@
     "scripts": {
         "dev": "parcel src/index.html -p 8080",
         "build": "parcel build src/index.html --out-dir dist --no-source-maps",
-        "make_zip": "npm run build && touch dabomb.zip && rm dabomb.zip && cd dist && zip -r ../dabomb.zip * && cd ..",
+        "make_zip_using_bash": "npm run build && touch dabomb.zip && rm dabomb.zip && cd dist && zip -r ../dabomb.zip * && cd ..",
+        "make_zip": "npm run build && node cmd/zip_dir.js ./dist",
         "deploy": "gdeploy install ./dist"
     },
     "author": "micheg",
@@ -21,13 +22,14 @@
     },
     "homepage": "kaios.michelangelog.com",
     "devDependencies": {
+        "dir-archiver": "^1.2.0",
         "parcel-bundler": "^1.12.5",
         "parcel-plugin-clean-easy": "^1.0.2",
         "parcel-plugin-html-externals": "^0.3.0",
         "parcel-plugin-static-files-copy": "^2.4.3"
     },
     "dependencies": {
-        "phaser": "^3.55.1"
+        "phaser": "^3.55.2"
     },
     "parcelCleanPaths": [
         "dist"
