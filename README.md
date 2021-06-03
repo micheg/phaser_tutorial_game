@@ -51,4 +51,4 @@ It can be a good place to start, it already includes:
 
 ## Added
 
-* node script for making zip file.
+* A node script for making zip file.
