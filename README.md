@@ -34,7 +34,7 @@ It can be a good place to start, it already includes:
 
 * KaiAds integration.
 * Publication on the KaiOS store
-* A node script for zip automation. (For now npm uses bash, so it doesn't work on windows)
+* ~~A node script for zip automation. (For now npm uses bash, so it doesn't work on windows)~~
 
 ## Tested on:
 
@@ -47,4 +47,8 @@ It can be a good place to start, it already includes:
     npm run dev (for testing)
     npm run build (for building)
     npm run deploy (require a KaiOS Phone and gdeploy)
-    npm run make_zip (require an *nix like os)
+    npm run make_zip
+
+## Added
+
+* node script for making zip file.
