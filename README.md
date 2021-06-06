@@ -52,3 +52,9 @@ It can be a good place to start, it already includes:
 ## Added
 
 * A node script for making zip file.
+
+## History:
+
+* 1.0.0 first version tested on nokia.
+* 1.0.1 compressed audio resources
+* 1.1.0 better handling of non-playable scenes and kaios menu
