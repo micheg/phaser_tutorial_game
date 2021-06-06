@@ -19,7 +19,8 @@ export default
         default: 'arcade',
         arcade:
         {
-            gravity: { y: 320 }
+            gravity: { y: 320 },
+            debug: false
         }
     },
     pixelArt: true

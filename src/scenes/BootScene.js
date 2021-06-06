@@ -12,6 +12,56 @@ export default class BootScene extends Phaser.Scene
 
     preload()
     {
+        // progress bar
+        let progressBar = this.add.graphics();
+        let progressBox = this.add.graphics();
+        progressBox.fillStyle(0x222222, 0.8);
+        progressBox.fillRect(20, 140, 200, 40);
+
+        let loadingText = this.make.text(
+        {
+            x: WIDTH / 2,
+            y: HEIGHT / 2 - 50,
+            text: 'Loading...',
+            style: {
+                font: '20px monospace',
+                fill: '#ffffff'
+            }
+        }).setOrigin(0.5, 0.5);
+
+        let fileText = this.make.text(
+        {
+            x: WIDTH / 2,
+            y: HEIGHT / 2 + 50,
+            text: '',
+            style: {
+                font: '10px monospace',
+                fill: '#ffffff'
+            }
+        }).setOrigin(0.5, 0.5);
+
+        // progress events
+
+        this.load.on('progress', function (value)
+        {
+            progressBar.clear();
+            progressBar.fillStyle(0xffffff, 1);
+            progressBar.fillRect(30, 150, 180 * value, 20);
+        });
+                    
+        this.load.on('fileprogress', function (file)
+        {
+            fileText.text = file.src;
+        });
+         
+        this.load.on('complete', function ()
+        {
+            loadingText.destroy();
+            fileText.destroy();
+            progressBox.destroy();
+            progressBar.destroy();
+        });
+
         // load images and sprites
         this.load.image(IMG.SKY, 'img/sky.png');
         this.load.image(IMG.STAR, 'img/star.png');

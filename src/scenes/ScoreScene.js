@@ -18,25 +18,15 @@ export default class ScoreScene extends Phaser.Scene
     create()
     {
         this.create_background();
-        // ui
-        this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
-        this.add.rectangle(CENTER_X, HEIGHT - 22, WIDTH, 2, 0xffffff);
-        this.add.bitmapText(4, HEIGHT - 17, IMG.FONT, 'Menu', 20);
-
         // keybind
-        this.startButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.leftButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 
         // kaios softkeys
-        this.input.keyboard.on( 'keydown', (e) =>
+    Utils.make_bottom_bar(this,
         {
-            switch (e.key)
-            {
-                case 'SoftLeft':
-                    this.scene.pause();
-                    this.scene.start('start-scene');
-                    break;
-            }
+            left_text: 'Menu',
+            left_scene: 'start-scene',
+            bottom_bar: true
         });
         this.create_scores_ui();
     }

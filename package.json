@@ -1,6 +1,6 @@
 {
     "name": "phaser3_kaios_template",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "A simple game with phaserjs for kaios",
     "scripts": {
         "dev": "parcel src/index.html -p 8080",

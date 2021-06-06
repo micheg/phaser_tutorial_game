@@ -1,5 +1,6 @@
 import { WIDTH, HEIGHT, CENTER_X, CENTER_Y } from '../cfg/cfg';
 import { IMG } from '../cfg/assets';
+import Utils from '../utils/utils';
 
 import Phaser from 'phaser'
 
@@ -21,9 +22,6 @@ export default class StartScene extends Phaser.Scene
         this.star1 = this.add.image(CENTER_X - 100, CENTER_Y - 55, IMG.STAR);
         this.star2 = this.add.image(CENTER_X + 100, CENTER_Y - 55, IMG.STAR);
         this.logo = this.add.image(CENTER_X, 70, IMG.BOMB_LOGO);
-        this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000);
-        this.add.bitmapText(4, HEIGHT - 17, IMG.FONT, 'About', 20);
-        this.add.bitmapText(200, HEIGHT - 17, IMG.FONT, 'Rules', 20);
         let text_start = this.add.bitmapText(CENTER_X, CENTER_Y, IMG.FONT, 'START', 40, 1);
         let text_config = this.add.bitmapText(CENTER_X, CENTER_Y + 50, IMG.FONT, 'AUDIO ON', 40, 1);
         let text_exit = this.add.bitmapText(CENTER_X, CENTER_Y + 100, IMG.FONT, 'EXIT', 40, 1);
@@ -70,21 +68,15 @@ export default class StartScene extends Phaser.Scene
         });
 
         // kaios softkeys
-        this.input.keyboard.on( 'keydown', (e) =>
+        Utils.make_bottom_bar(this,
         {
-            switch (e.key)
-            {
-                case 'SoftLeft':
-                    this.scene.pause();
-                    this.scene.start('about-scene');
-                    break;
-                case 'SoftRight':
-                    this.scene.pause();
-                    this.scene.start('intro-scene');
-                    break;
-            }
+            left_text: 'About',
+            left_scene: 'about-scene',
+            right_text: 'Rules',
+            right_scene: 'intro-scene',
+            bottom_bar: true
         });
-
+    
         // read save data
         const audio = localStorage.getItem('audio');
         if(audio === 'off') this.text_config.text = 'AUDIO OFF';

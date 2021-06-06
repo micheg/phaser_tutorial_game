@@ -85,21 +85,14 @@ export default class GameScene extends Phaser.Scene
     create_kaios_menu()
     {
         // top header
-        this.add.rectangle(120, 10, 240, 20, 0x000000, 1);
-        this.add.rectangle(CENTER_X, HEIGHT - 10, WIDTH, 20, 0x000000, 1);
-        this.add.bitmapText(4, HEIGHT - 17, IMG.FONT, 'Menu', 20);
-
-        // kaios softkeys
-        this.input.keyboard.on( 'keydown', (e) =>
+        this.add.rectangle(120, 8, 240, 16, 0x000000, 1);
+        Utils.make_bottom_bar(this,
         {
-            switch (e.key)
-            {
-                case 'SoftLeft':
-                    this.scene.pause();
-                    this.scene.start('start-scene');
-                    break;
-            }
+            left_text: 'Menu',
+            left_scene: 'start-scene',
+            bottom_bar: false
         });
+
         this.leftButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
     }
 
@@ -114,6 +107,7 @@ export default class GameScene extends Phaser.Scene
     create_player()
     {
         const player = this.physics.add.sprite(100, 100, IMG.DUDE)
+        player.body.setSize(16,26,true);
         player.setBounce(0.2)
         player.setCollideWorldBounds(true)
 

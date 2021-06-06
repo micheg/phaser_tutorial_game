@@ -6,7 +6,7 @@ export default class GenericLabel extends Phaser.GameObjects.BitmapText
 {
     constructor(scene, x, y, value, format_function)
     {
-        super(scene, x, y, IMG.FONT, format_function(value), 20, 1);
+        super(scene, x, y, IMG.FONT, format_function(value), 16, 1);
         this.format_function = format_function;
         this.value = value;
     }
